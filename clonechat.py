@@ -6,6 +6,7 @@ import os
 import time
 from configparser import ConfigParser
 from pathlib import Path
+from models.telegram_chat_message import TelegramChatMessage
 
 import pyrogram
 from pyrogram.errors import ChannelInvalid, FloodWait, PeerIdInvalid
@@ -29,7 +30,7 @@ def get_config_data(path_file_config):
 
 
 def foward_photo(message, destination_chat):
-
+    return 
     caption = get_caption(message)
     photo_id = message.photo.file_id
     try:
@@ -71,7 +72,7 @@ def foward_text(message, destination_chat):
 
 
 def foward_sticker(message, destination_chat):
-
+    return
     sticker_id = message.sticker.file_id
     try:
         tg.send_sticker(chat_id=destination_chat, sticker=sticker_id)
@@ -87,7 +88,7 @@ def foward_sticker(message, destination_chat):
 
 
 def foward_document(message, destination_chat):
-
+    return
     caption = get_caption(message)
     document_id = message.document.file_id
     try:
@@ -109,7 +110,7 @@ def foward_document(message, destination_chat):
 
 
 def foward_animation(message, destination_chat):
-
+    return
     caption = get_caption(message)
     animation_id = message.animation.file_id
     try:
@@ -131,7 +132,7 @@ def foward_animation(message, destination_chat):
 
 
 def foward_audio(message, destination_chat):
-
+    return
     caption = get_caption(message)
     audio_id = message.audio.file_id
     try:
@@ -153,7 +154,7 @@ def foward_audio(message, destination_chat):
 
 
 def foward_voice(message, destination_chat):
-
+    return
     caption = get_caption(message)
     voice_id = message.voice.file_id
     try:
@@ -175,7 +176,7 @@ def foward_voice(message, destination_chat):
 
 
 def foward_video_note(message, destination_chat):
-
+    return
     video_note_id = message.video_note.file_id
     try:
         tg.send_video_note(
@@ -195,7 +196,7 @@ def foward_video_note(message, destination_chat):
 
 
 def foward_video(message, destination_chat):
-
+    return
     caption = get_caption(message)
     video_id = message.video.file_id
     try:
@@ -217,7 +218,7 @@ def foward_video(message, destination_chat):
 
 
 def foward_poll(message, destination_chat):
-
+    return
     if message.poll.type != "regular":
         return
     try:
@@ -388,10 +389,20 @@ def update_cache(CACHE_FILE, list_posted):
 
 
 def get_last_message_id(origin_chat):
+    from datetime import datetime
 
-    iter_message = useraccount.get_chat_history(origin_chat)
-    message = next(iter_message)
-    return message.id
+    last_msg_id = TelegramChatMessage.get_last_msg_id()[0][2]
+    iter_message = useraccount.get_chat_history(origin_chat, limit=10)
+
+    for message in iter_message:
+        if message.id == iter_message:
+            break
+        TelegramChatMessage(message.id, message.text, message.date).create()
+
+    import pdb; pdb.set_trace()
+
+    # message = next(iter_message)
+    # return message.id
 
 
 def get_files_type_excluded():
