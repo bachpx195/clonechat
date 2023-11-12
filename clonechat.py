@@ -389,13 +389,13 @@ def update_cache(CACHE_FILE, list_posted):
 
 
 def get_last_message_id(origin_chat):
-    from datetime import datetime
-
     last_msg_id = TelegramChatMessage.get_last_msg_id()[0][2]
-    iter_message = useraccount.get_chat_history(origin_chat, limit=10)
+    iter_message = useraccount.get_chat_history(origin_chat)
 
     for message in iter_message:
-        if message.id == iter_message:
+        if int(message.id) == int(last_msg_id):
+            print(message.id)
+            print(message.date)
             break
         TelegramChatMessage(message.id, message.text, message.date).create()
 
