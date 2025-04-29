@@ -29,27 +29,6 @@ def get_config_data(path_file_config):
     return default_config
 
 
-def foward_photo(message, destination_chat):
-    return 
-    caption = get_caption(message)
-    photo_id = message.photo.file_id
-    try:
-        tg.send_photo(
-            chat_id=destination_chat,
-            photo=photo_id,
-            caption=caption,
-        )
-        return
-    except FloodWait as e:
-        print(f"..FloodWait {e.value} seconds..")
-        time.sleep(e.value)
-    except Exception as e:
-        print(f"trying again... Due to: {e}")
-        time.sleep(10)
-
-    foward_photo(message, destination_chat)
-
-
 def foward_text(message, destination_chat):
 
     text = message.text.markdown
@@ -70,209 +49,10 @@ def foward_text(message, destination_chat):
 
     foward_text(message, destination_chat)
 
-
-def foward_sticker(message, destination_chat):
-    return
-    sticker_id = message.sticker.file_id
-    try:
-        tg.send_sticker(chat_id=destination_chat, sticker=sticker_id)
-        return
-    except FloodWait as e:
-        print(f"..FloodWait {e.value} seconds..")
-        time.sleep(e.value)
-    except Exception as e:
-        print(f"trying again... Due to: {e}")
-        time.sleep(10)
-
-    foward_sticker(message, destination_chat)
-
-
-def foward_document(message, destination_chat):
-    return
-    caption = get_caption(message)
-    document_id = message.document.file_id
-    try:
-        tg.send_document(
-            chat_id=destination_chat,
-            document=document_id,
-            disable_notification=True,
-            caption=caption,
-        )
-        return
-    except FloodWait as e:
-        print(f"..FloodWait {e.value} seconds..")
-        time.sleep(e.value)
-    except Exception as e:
-        print(f"trying again... Due to: {e}")
-        time.sleep(10)
-
-    foward_document(message, destination_chat)
-
-
-def foward_animation(message, destination_chat):
-    return
-    caption = get_caption(message)
-    animation_id = message.animation.file_id
-    try:
-        tg.send_animation(
-            chat_id=destination_chat,
-            animation=animation_id,
-            disable_notification=True,
-            caption=caption,
-        )
-        return
-    except FloodWait as e:
-        print(f"..FloodWait {e.value} seconds..")
-        time.sleep(e.value)
-    except Exception as e:
-        print(f"trying again... Due to: {e}")
-        time.sleep(10)
-
-    foward_animation(message, destination_chat)
-
-
-def foward_audio(message, destination_chat):
-    return
-    caption = get_caption(message)
-    audio_id = message.audio.file_id
-    try:
-        tg.send_audio(
-            chat_id=destination_chat,
-            audio=audio_id,
-            disable_notification=True,
-            caption=caption,
-        )
-        return
-    except FloodWait as e:
-        print(f"..FloodWait {e.value} seconds..")
-        time.sleep(e.value)
-    except Exception as e:
-        print(f"trying again... Due to: {e}")
-        time.sleep(10)
-
-    foward_audio(message, destination_chat)
-
-
-def foward_voice(message, destination_chat):
-    return
-    caption = get_caption(message)
-    voice_id = message.voice.file_id
-    try:
-        tg.send_voice(
-            chat_id=destination_chat,
-            voice=voice_id,
-            disable_notification=True,
-            caption=caption,
-        )
-        return
-    except FloodWait as e:
-        print(f"..FloodWait {e.value} seconds..")
-        time.sleep(e.value)
-    except Exception as e:
-        print(f"trying again... Due to: {e}")
-        time.sleep(10)
-
-    foward_voice(message, destination_chat)
-
-
-def foward_video_note(message, destination_chat):
-    return
-    video_note_id = message.video_note.file_id
-    try:
-        tg.send_video_note(
-            chat_id=destination_chat,
-            video_note=video_note_id,
-            disable_notification=True,
-        )
-        return
-    except FloodWait as e:
-        print(f"..FloodWait {e.value} seconds..")
-        time.sleep(e.value)
-    except Exception as e:
-        print(f"trying again... Due to: {e}")
-        time.sleep(10)
-
-    foward_video_note(message, destination_chat)
-
-
-def foward_video(message, destination_chat):
-    return
-    caption = get_caption(message)
-    video_id = message.video.file_id
-    try:
-        tg.send_video(
-            chat_id=destination_chat,
-            video=video_id,
-            disable_notification=True,
-            caption=caption,
-        )
-        return
-    except FloodWait as e:
-        print(f"..FloodWait {e.value} seconds..")
-        time.sleep(e.value)
-    except Exception as e:
-        print(f"trying again... Due to: {e}")
-        time.sleep(10)
-
-    foward_video(message, destination_chat)
-
-
-def foward_poll(message, destination_chat):
-    return
-    if message.poll.type != "regular":
-        return
-    try:
-        tg.send_poll(
-            chat_id=destination_chat,
-            question=message.poll.question,
-            options=[option.text for option in message.poll.options],
-            is_anonymous=message.poll.is_anonymous,
-            allows_multiple_answers=message.poll.allows_multiple_answers,
-            disable_notification=True,
-        )
-        return
-    except FloodWait as e:
-        print(f"..FloodWait {e.value} seconds..")
-        time.sleep(e.value)
-    except Exception as e:
-        print(f"trying again... Due to: {e}")
-        time.sleep(10)
-
-    foward_poll(message, destination_chat)
-
-
-def get_caption(message):
-
-    if message.caption:
-        caption = message.caption.markdown
-    else:
-        caption = None
-    return caption
-
-
 def get_sender(message):
-
-    if message.photo:
-        return foward_photo
     if message.text:
         return foward_text
-    if message.document:
-        return foward_document
-    if message.sticker:
-        return foward_sticker
-    if message.animation:
-        return foward_animation
-    if message.audio:
-        return foward_audio
-    if message.voice:
-        return foward_voice
-    if message.video:
-        return foward_video
-    if message.video_note:
-        return foward_video_note
-    if message.poll:
-        return foward_poll
-
+    
     print("\nNot recognized message type:\n")
     print(message)
     raise Exception
@@ -305,24 +85,8 @@ def get_files_type_excluded_by_input(input_string):
     if input_string == "" or "0" in input_string:
         return files_type_excluded
     else:
-        if "1" not in input_string:
-            files_type_excluded += [foward_photo]
         if "2" not in input_string:
             files_type_excluded += [foward_text]
-        if "3" not in input_string:
-            files_type_excluded += [foward_document]
-        if "4" not in input_string:
-            files_type_excluded += [foward_sticker]
-        if "5" not in input_string:
-            files_type_excluded += [foward_animation]
-        if "6" not in input_string:
-            files_type_excluded += [foward_audio]
-        if "7" not in input_string:
-            files_type_excluded += [foward_voice]
-        if "8" not in input_string:
-            files_type_excluded += [foward_video]
-        if "9" not in input_string:
-            files_type_excluded += [foward_poll]
         if len(files_type_excluded) == 9:
             print("Invalid option! Try again")
             return get_files_type_excluded_by_input(input_string)
@@ -357,22 +121,6 @@ def task_type():
         return task_type()
 
 
-def get_list_posted(int_task_type):
-
-    # 1 = new
-    if int_task_type == 1:
-        if os.path.exists(CACHE_FILE):
-            os.remove(CACHE_FILE)
-        return []
-    else:  # 2 = resume
-        if os.path.exists(CACHE_FILE):
-            with open(CACHE_FILE, mode="r") as file:
-                posted = json.loads(file.read())
-                return posted
-        else:
-            return []
-
-
 def wait_a_moment(message_id, skip=False):
 
     if message_id != 1:
@@ -398,9 +146,6 @@ def get_last_message_id(origin_chat):
             print(message.date)
             break
         TelegramChatMessage(message.id, message.text, message.date).create()
-
-    import pdb; pdb.set_trace()
-
     # message = next(iter_message)
     # return message.id
 
@@ -542,12 +287,10 @@ def ensure_connection(client_name):
 # 2. lấy first id
 # 3. tiến hành lặp cho đến khi first id = last id
 
-
 def main():
 
     print(
         f"\n....:: Clonechat - v{version} ::....\n"
-        + "github.com/apenasrr/clonechat/\n"
     )
 
     global FILES_TYPE_EXCLUDED
@@ -559,9 +302,20 @@ def main():
         int_task_type = task_type()
     else:
         int_task_type = NEW
-    list_posted = get_list_posted(int_task_type)
 
     message_id = get_first_message_id(list_posted)
+
+    last_msg_id = TelegramChatMessage.get_last_msg_id()[0][2]
+    iter_message = useraccount.get_chat_history(origin_chat)
+
+    for message in iter_message:
+        if int(message.id) == int(last_msg_id):
+            print(message.id)
+            print(message.date)
+            break
+        TelegramChatMessage(message.id, message.text, message.date).create()
+
+
     while message_id < last_message_id:
         message_id = message_id + 1
         if message_id in list_posted:
